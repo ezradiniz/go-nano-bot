@@ -7,35 +7,47 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-var prefix = "?go"
-
-func command(content string) string {
-	if len(content) <= len(prefix) {
-		return ""
-	}
-	if content[:len(prefix)] == prefix {
-		return strings.TrimSpace(content[len(prefix):])
-	}
-	return ""
+// BotHandler ...
+type BotHandler struct {
+	Prefix string
 }
 
-func errHandler(_ interface{}, err error) {
-	if err != nil {
-		fmt.Println("Error [message send]: ", err)
-	}
+// NewBotHandler new NewBotHandler
+func NewBotHandler(prefix string) *BotHandler {
+	return &BotHandler{prefix}
 }
 
-// BotHandler handler method
-func BotHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
+// Commands handler method
+func (h BotHandler) Commands(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if s.State.Ready.User.Username == m.Author.Username {
 		return
 	}
-	cmd := command(m.Content)
+
+	cmd, err := commandParser(h.Prefix, m.Content)
+	if err != nil {
+		return
+	}
+
 	switch cmd {
+	case "price":
+		PriceHandler(s, m)
+	default:
+		check(s.ChannelMessageSend(m.ChannelID, "What? Invalid command"))
 	}
 }
 
-// SetPrefix set new prefix
-func SetPrefix(p string) {
-	prefix = p
+func commandParser(prefix, content string) (string, error) {
+	if len(content) <= len(prefix) || content[len(prefix)] != ' ' {
+		return "", fmt.Errorf("Comand %s invalid", content)
+	}
+	if content[:len(prefix)] == prefix {
+		return strings.TrimSpace(content[len(prefix):]), nil
+	}
+	return "", fmt.Errorf("Comand %s invalid", content)
+}
+
+func check(_ interface{}, err error) {
+	if err != nil {
+		fmt.Println("Error [message send]: ", err)
+	}
 }
