@@ -7,18 +7,34 @@ import (
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/ezradiniz/go-nano/handlers"
+	"github.com/ezradiniz/go-nano-bot/handlers"
+	"github.com/paked/configure"
 )
+
+var (
+	conf   = configure.New()
+	token  = conf.String("TOKEN", "token", "Bot token")
+	prefix = conf.String("prefix", "?go", "Bot prefix")
+)
+
+func init() {
+	conf.Use(configure.NewEnvironment())
+	conf.Use(configure.NewFlag())
+}
 
 func main() {
 
-	discord, err := discordgo.New("Bot " + os.Getenv("TOKEN"))
+	conf.Parse()
+
+	discord, err := discordgo.New("Bot " + *token)
 	if err != nil {
 		fmt.Println("error creating Discord session", err)
 		return
 	}
 
-	discord.AddHandler(handlers.BotHandler)
+	handler := handlers.NewBotHandler(*prefix)
+
+	discord.AddHandler(handler.Commands)
 
 	err = discord.Open()
 	if err != nil {
