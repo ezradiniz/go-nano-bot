@@ -7,7 +7,9 @@ func MessageEmbedDefault() *discordgo.MessageEmbed {
 
 	// set thumbnail
 	e := &discordgo.MessageEmbed{}
-	e.Thumbnail = &discordgo.MessageEmbedThumbnail{URL: "https://i.imgur.com/Dc2rW20.png"}
+	e.Thumbnail = &discordgo.MessageEmbedThumbnail{
+		URL: "https://raw.githubusercontent.com/ezradiniz/go-nano-bot/master/assets/go-nano.png",
+	}
 
 	// set footer
 	e.Footer = &discordgo.MessageEmbedFooter{Text: "Nano to the moon!"}
