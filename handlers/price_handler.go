@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/bwmarrin/discordgo"
+	humanize "github.com/dustin/go-humanize"
 	"github.com/ezradiniz/go-nano-bot/api"
 	"github.com/ezradiniz/go-nano-bot/util"
 )
@@ -32,6 +33,15 @@ func PriceHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	util.AddFieldEmbed(embed, "Price USD", nano.PriceUSD)
 	util.AddFieldEmbed(embed, "Price BTC", nano.PriceBTC)
+
+	// humanize market cap
+	cap, _ := strconv.ParseFloat(nano.MarketCap, 64)
+	util.AddFieldEmbed(embed, "Market Cap", humanize.Commaf(cap)+" USD")
+
+	// humanize volume (24h)
+	vol, _ := strconv.ParseFloat(nano.Volume24h, 64)
+	util.AddFieldEmbed(embed, "Volume (24h)", humanize.Commaf(vol)+" USD")
+
 	util.AddFieldEmbed(embed, "Rank", nano.Rank)
 
 	// parse time
