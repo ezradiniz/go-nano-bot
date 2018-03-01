@@ -1,16 +1,7 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
-	"net/http"
-	"reflect"
-	"time"
-)
-
-var (
-	cache     interface{}
-	timestamp time.Time
 )
 
 // NanoResponse response
@@ -37,21 +28,7 @@ type Coin struct {
 
 // FetchNano fetch coin market cap
 func FetchNano(response interface{}) error {
-	if cache != nil && time.Now().Sub(timestamp).Minutes() < 5 {
-		reflect.ValueOf(response).Elem().Set(reflect.ValueOf(cache))
-		return nil
-	}
-	res, err := http.Get("https://api.coinmarketcap.com/v1/ticker/nano/")
-	if err != nil {
-		return err
-	}
-	defer check(res.Body.Close)
-	err = json.NewDecoder(res.Body).Decode(response)
-
-	cache = reflect.Indirect(reflect.ValueOf(response)).Interface()
-	timestamp = time.Now()
-
-	return err
+	return fetchJSON("https://api.coinmarketcap.com/v1/ticker/nano/", response, 1)
 }
 
 func check(f func() error) {
