@@ -26,7 +26,5 @@ func FetchBalance(address string, response interface{}) error {
 
 	err := c.Visit(Raiblocks + "?acc=" + address)
 
-	c.Wait()
-
 	return err
 }

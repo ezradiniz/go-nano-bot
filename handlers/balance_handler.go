@@ -8,6 +8,8 @@ import (
 	"github.com/ezradiniz/go-nano-bot/util"
 )
 
+const qrCode = "https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl="
+
 // BalanceHandler ...
 func BalanceHandler(s *discordgo.Session, m *discordgo.MessageCreate, args []string) {
 	if len(args) == 0 {
@@ -35,6 +37,10 @@ func BalanceHandler(s *discordgo.Session, m *discordgo.MessageCreate, args []str
 	embed.Author = &discordgo.MessageEmbedAuthor{
 		Name: "Address",
 		URL:  api.Raiblocks + "?acc=" + args[0],
+	}
+
+	embed.Image = &discordgo.MessageEmbedImage{
+		URL: qrCode + args[0],
 	}
 
 	util.AddFieldEmbed(embed, "Amount", balance.Amount)
