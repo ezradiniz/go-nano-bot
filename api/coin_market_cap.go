@@ -1,9 +1,5 @@
 package api
 
-import (
-	"fmt"
-)
-
 // NanoResponse response
 type NanoResponse []Coin
 
@@ -29,10 +25,4 @@ type Coin struct {
 // FetchNano fetch coin market cap
 func FetchNano(response interface{}) error {
 	return fetchJSON("https://api.coinmarketcap.com/v1/ticker/nano/", response, 1)
-}
-
-func check(f func() error) {
-	if err := f(); err != nil {
-		fmt.Println("Error when closing:", err)
-	}
 }

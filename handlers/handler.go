@@ -28,22 +28,25 @@ func (h BotHandler) Commands(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	switch cmd {
+	switch cmd[0] {
 	case "price":
-		PriceHandler(s, m)
+		PriceHandler(s, m, cmd[1:])
+	case "balance":
+		BalanceHandler(s, m, cmd[1:])
 	default:
 		check(s.ChannelMessageSend(m.ChannelID, "What? Invalid command"))
 	}
 }
 
-func commandParser(prefix, content string) (string, error) {
+func commandParser(prefix, content string) ([]string, error) {
+	var cmd []string
 	if len(content) <= len(prefix) || content[len(prefix)] != ' ' {
-		return "", fmt.Errorf("Comand %s invalid", content)
+		return cmd, fmt.Errorf("Comand %s invalid", content)
 	}
 	if content[:len(prefix)] == prefix {
-		return strings.TrimSpace(content[len(prefix):]), nil
+		return strings.Fields(strings.TrimSpace(content[len(prefix):])), nil
 	}
-	return "", fmt.Errorf("Comand %s invalid", content)
+	return cmd, fmt.Errorf("Comand %s invalid", content)
 }
 
 func check(_ interface{}, err error) {

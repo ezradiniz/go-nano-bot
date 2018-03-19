@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"reflect"
 	"time"
@@ -29,4 +30,10 @@ func fetchJSON(url string, response interface{}, cacheTime float64) error {
 	}
 
 	return err
+}
+
+func check(f func() error) {
+	if err := f(); err != nil {
+		fmt.Println("Error when closing:", err)
+	}
 }

@@ -12,7 +12,7 @@ import (
 )
 
 // PriceHandler ...
-func PriceHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
+func PriceHandler(s *discordgo.Session, m *discordgo.MessageCreate, args []string) {
 	nanoResponse := api.NanoResponse{}
 
 	err := api.FetchNano(&nanoResponse)
