@@ -14,12 +14,15 @@ or with environment vars
 ### Commands
 
 * **?go price** - Show nano price
-* **?go balance [address]** - Show nano balance (XRB)
+* **?go balance [address]** - Show nano balance
 * ~~**?go news**~~ - Show nano news (TODO)
 
 ### Why Golang?
 
 To learn Golang
+
+### Preview
+<img src="https://media.giphy.com/media/fWgfSuOjoRCCE2HJfS/giphy.gif" height="250" />
 
 ### License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
