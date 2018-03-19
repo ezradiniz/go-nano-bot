@@ -14,6 +14,7 @@ or with environment vars
 ### Commands
 
 * **?go price** - Show nano price
+* **?go balance [address]** - Show nano balance (XRB)
 * ~~**?go news**~~ - Show nano news (TODO)
 
 ### Why Golang?
