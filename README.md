@@ -14,6 +14,7 @@ or with environment vars
 ### Commands
 
 * **?go price** - Show nano price
+* **?go blocks** - Show nano block
 * **?go balance [address]** - Show nano balance
 * ~~**?go news**~~ - Show nano news (TODO)
 

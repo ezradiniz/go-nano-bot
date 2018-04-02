@@ -33,6 +33,8 @@ func (h BotHandler) Commands(s *discordgo.Session, m *discordgo.MessageCreate) {
 		PriceHandler(s, m, cmd[1:])
 	case "balance":
 		BalanceHandler(s, m, cmd[1:])
+	case "blocks":
+		BlockHandler(s, m, cmd[1:])
 	default:
 		check(s.ChannelMessageSend(m.ChannelID, "What? Invalid command"))
 	}
